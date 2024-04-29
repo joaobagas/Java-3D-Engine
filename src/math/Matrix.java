@@ -35,6 +35,93 @@ public class Matrix {
 
         double fFov = 1.0 / (fov * 2 / Math.PI * 180);
 
+        mat.matrix[0][0] = aspectRatio * fov;
+        mat.matrix[1][1] = fov;
+        mat.matrix[2][2] = fFar / (fFar - fNear);
+        mat.matrix[2][3] = 1.0;
+        mat.matrix[3][2] = -fFar * fNear / (fFar - fNear);
+
+        return mat;
+    }
+
+    public static Matrix rotationMatrixX(double angle) {
+        Matrix mat = new Matrix(new double[][]{{0, 0, 0, 0},
+                                               {0, 0, 0, 0},
+                                               {0, 0, 0, 0},
+                                               {0, 0, 0, 0}});
+
+        mat.matrix[0][0] = 1.0;
+        mat.matrix[1][1] = Math.cos(angle);
+        mat.matrix[1][2] = Math.sin(angle);
+        mat.matrix[2][1] = -Math.sin(angle);
+        mat.matrix[2][2] = Math.cos(angle);
+        mat.matrix[3][3] = 1.0;
+
+        return mat;
+    }
+
+    public static Matrix rotationMatrixY(double angle) {
+        Matrix mat = new Matrix(new double[][]{{0, 0, 0, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0, 0}});
+
+        mat.matrix[0][0] = Math.cos(angle);
+        mat.matrix[0][2] = Math.sin(angle);
+        mat.matrix[1][1] = 1.0;
+        mat.matrix[2][0] = -Math.sin(angle);
+        mat.matrix[2][2] = Math.cos(angle);
+        mat.matrix[3][3] = 1.0;
+
+        return mat;
+    }
+
+    public static Matrix rotationMatrixZ(double angle) {
+        Matrix mat = new Matrix(new double[][]{{0, 0, 0, 0},
+                                               {0, 0, 0, 0},
+                                               {0, 0, 0, 0},
+                                               {0, 0, 0, 0}});
+
+        mat.matrix[0][0] = Math.cos(angle);
+        mat.matrix[0][1] = Math.sin(angle);
+        mat.matrix[1][0] = -Math.sin(angle);
+        mat.matrix[1][1] = Math.cos(angle);
+        mat.matrix[2][2] = 1.0;
+        mat.matrix[3][3] = 1.0;
+
+        return mat;
+    }
+
+    public static Matrix translationMatrix(double x, double y, double z) {
+        return new Matrix(new double[][]{{1, 1, 0, 0},
+                                         {0, 1, 1, 0},
+                                         {x, y, z, 0},
+                                         {0, 0, 0, 0}});
+
+    }
+
+    public static Matrix identityMatrix() {
+        return new Matrix(new double[][]{{1, 0, 0, 0},
+                                         {0, 1, 0, 0},
+                                         {0, 0, 1, 0},
+                                         {0, 0, 0, 1}});
+    }
+
+    public static Matrix multiplyMatrices(Matrix matrix1, Matrix matrix2) {
+        Matrix mat = new Matrix(new double[][]{{0, 0, 0, 0},
+                                               {0, 0, 0, 0},
+                                               {0, 0, 0, 0},
+                                               {0, 0, 0, 0}});
+
+        for(int i = 0; i < 4; i++) {
+            for(int j = 0; j < 4; j++) {
+                mat.matrix[i][j] = matrix1.matrix[i][0] * matrix2.matrix[0][j] +
+                                   matrix1.matrix[i][1] * matrix2.matrix[1][j] +
+                                   matrix1.matrix[i][2] * matrix2.matrix[2][j] +
+                                   matrix1.matrix[i][3] * matrix2.matrix[3][j];
+            }
+        }
+
         return mat;
     }
 }
