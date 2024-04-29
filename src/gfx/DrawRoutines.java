@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 
 public class DrawRoutines {
-    public void drawTriangle(Graphics2D g2D, double x1, double y1, double x2, double y2, double x3, double y3) {
+    public static void drawTriangle(Graphics2D g2D, double x1, double y1, double x2, double y2, double x3, double y3) {
         // Define the stroke
         g2D.setStroke(new BasicStroke(3));
 
